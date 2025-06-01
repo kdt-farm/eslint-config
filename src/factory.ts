@@ -1,8 +1,10 @@
 import type { Linter } from 'eslint'
+import { resolveNestedOptions } from '@kdt310722/utils/object'
 import { composer } from 'eslint-flat-config-utils'
-import { antfu, comments, format, type FormatOptions, gitignore, ignores, importX, javascript, jsonc, kdt, node, perfectionist, promise, regexp, sonar, stylistic, typescript, type TypescriptOptions, unicorn, unusedImports, vue } from './configs'
+import { antfu, comments, format, type FormatOptions, gitignore, ignores, importX, javascript, jsonc, kdt, node, perfectionist, promise, regexp, sonar, stylistic, tailwind, type TailwindOptions, typescript, type TypescriptOptions, unicorn, unusedImports, vue } from './configs'
 
 export interface DefineConfigOptions {
+    tailwind?: TailwindOptions | boolean
     typescript?: TypescriptOptions
     format?: FormatOptions
     vue?: boolean
@@ -10,7 +12,7 @@ export interface DefineConfigOptions {
     configs?: Linter.Config[]
 }
 
-export function defineConfig({ typescript: typescriptOptions = {}, format: formatOptions, vue: isVueEnabled, config, configs: configs_ }: DefineConfigOptions = {}) {
+export function defineConfig({ tailwind: tailwind_ = true, typescript: typescriptOptions = {}, format: formatOptions, vue: isVueEnabled, config, configs: configs_ }: DefineConfigOptions = {}) {
     typescriptOptions.componentExts ??= []
 
     if (isVueEnabled) {
@@ -21,6 +23,12 @@ export function defineConfig({ typescript: typescriptOptions = {}, format: forma
 
     if (isVueEnabled) {
         configs.append(vue())
+    }
+
+    const tailwindOptions = resolveNestedOptions(tailwind_)
+
+    if (tailwindOptions !== false) {
+        configs.append(tailwind(tailwindOptions))
     }
 
     if (config) {
