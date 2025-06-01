@@ -53,12 +53,12 @@ const getSupportedFiles = ({ tailwind = false }: PrettierGetSupportedFilesOption
     const tailwindOptions = resolveNestedOptions(tailwind) || { enabled: false }
 
     return [
-        [['**/*.css'], { parser: 'css', ...(tailwindOptions.enabled ? { plugins: ['eslint-plugin-tailwindcss'], ...tailwindOptions } : {}) }],
+        [['**/*.css'], { parser: 'css' }],
         [['**/*.{p,post}css'], { parser: 'css' }],
         [['**/*.scss'], { parser: 'scss' }],
         [['**/*.less'], { parser: 'less' }],
         [['**/*.md'], { parser: 'markdown' }],
-        [['**/*.htm?(l)'], { parser: 'html' }],
+        [['**/*.htm?(l)'], { parser: 'html', ...(tailwindOptions.enabled ? { plugins: ['eslint-plugin-tailwindcss'], ...tailwindOptions } : {}) }],
         [['**/*.y?(a)ml'], { parser: 'yaml' }],
     ]
 }
