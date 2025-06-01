@@ -1,0 +1,6 @@
+onlyBuiltDependencies:
+  - '@kdt310722/utils'
+  - '@swc/core'
+  - esbuild
+  - simple-git-hooks
+  - unrs-resolver
