@@ -57,6 +57,7 @@ export const vue = async () => concat(
         },
         rules: {
             ...(await getStylisticRules()),
+            '@stylistic/indent': 'off',
             'vue/block-lang': ['error', { script: { lang: 'ts' } }],
             'vue/block-order': ['error', { order: ['script', 'template', 'style'] }],
             'vue/block-tag-newline': ['error', { maxEmptyLines: 1, multiline: 'always', singleline: 'consistent' }],
