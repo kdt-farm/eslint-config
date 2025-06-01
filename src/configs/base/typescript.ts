@@ -64,7 +64,10 @@ const typeCheckedRules: Linter.RulesRecord = {
 const pluginConfigs = [tseslint.configs.eslintRecommended, tseslint.configs.strict, tseslint.configs.stylistic] as Linter.Config[][]
 const pluginTypeCheckedConfigs = [tseslint.configs.strictTypeChecked, tseslint.configs.stylisticTypeChecked] as Linter.Config[][]
 
-export type TypescriptLanguageOptions = { tsconfigPath: string | string[], tsconfigRootDir?: string } | { tsconfigPath?: string | string[], tsconfigRootDir: string } | { tsconfigPath: string | string[], tsconfigRootDir: string }
+export interface TypescriptLanguageOptions {
+    tsconfigPath?: string | string[]
+    tsconfigRootDir?: string
+}
 
 const languageOptions = ({ tsconfigPath, tsconfigRootDir }: TypescriptLanguageOptions) => ({
     parserOptions: {
@@ -94,7 +97,7 @@ export interface TypescriptOptions {
     tsconfig?: TypescriptLanguageOptions
 }
 
-export function typescript({ componentExts = [], tsconfig }: TypescriptOptions = {}): Promise<Linter.Config[]> {
+export function typescript({ componentExts = [], tsconfig = { tsconfigPath: 'tsconfig.json', tsconfigRootDir: process.cwd() } }: TypescriptOptions = {}): Promise<Linter.Config[]> {
     const files = ['**/*.?([cm])[jt]s?(x)', ...componentExts.map((ext) => `**/*.${ext}`)]
     const baseConfigs = [declareFilesConfig, jsFilesConfig]
 
